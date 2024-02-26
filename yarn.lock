@@ -3169,6 +3169,11 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
+fern-api@^0.18.3:
+  version "0.18.3"
+  resolved "https://registry.yarnpkg.com/fern-api/-/fern-api-0.18.3.tgz#d920301dfeab43ee2aa48dc5e8c10ca37a838b2b"
+  integrity sha512-E29DQpYVKxVXcnijHILZB8ktsN6Z/cXEjcBKa5uDjGhqXDIoKhvr+B8zjdg+d6MQrMMENusn9N+mTz5keml+cw==
+
 figures@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-3.2.0.tgz#625c18bd293c604dc4a8ddb2febf0c88341746af"
@@ -5338,6 +5343,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+url-join@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/url-join/-/url-join-4.0.1.tgz#b642e21a2646808ffa178c4c5fda39844e12cde7"
+  integrity sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==
 
 url@0.10.3:
   version "0.10.3"

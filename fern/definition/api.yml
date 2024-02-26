@@ -1,6 +1,6 @@
 name: imdb-api
 environments:
-  Production: https://imdb.demos.danwakeem.com
+  Production: https://imdb.demos.danwakeem.com/imdb
 default-environment: Production
 error-discrimination:
   strategy: status-code
