@@ -61,6 +61,10 @@ jobs:
       - name: Deploy PR Environment - ${{ needs.variables.outputs.sls_stage }}
         run: yarn deploy --stage ${{ needs.variables.outputs.sls_stage }}
 
+      - uses: GuillaumeFalourd/wait-sleep-action@v1
+        with:
+          time: '10' # for 10 seconds
+
       - name: Test PR Environment
         run: |
           yarn test:js ${{ needs.variables.outputs.sls_stage }}
