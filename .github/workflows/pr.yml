@@ -37,11 +37,6 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           cache-dependency-path: |
             ./yarn.lock
-      - uses: actions/cache@v3
-        with:
-          path: |
-            './node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('./yarn.lock') }}
 
       - name: Install Dependencies
         run: yarn install
@@ -83,11 +78,6 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           cache-dependency-path: |
             ./yarn.lock
-      - uses: actions/cache@v3
-        with:
-          path: |
-            './node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('./yarn.lock') }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
