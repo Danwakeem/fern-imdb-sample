@@ -40,9 +40,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            '**/node_modules'
-            '../../node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+            './node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('./yarn.lock') }}
 
       - name: Install Dependencies
         run: yarn install
@@ -87,9 +86,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            '**/node_modules'
-            '../../node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+            './node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('./yarn.lock') }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
