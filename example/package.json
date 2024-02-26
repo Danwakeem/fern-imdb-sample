@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
-    "start:ts": "ts-node index.ts"
+    "test:js": "node index.js",
+    "test:ts": "ts-node index.ts"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",

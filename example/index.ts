@@ -2,7 +2,14 @@ import { IMDbClient } from './sdk/node';
 
 (async () => {
   try {
-    const client = new IMDbClient();
+    // Get first argument
+    let environment = process.argv[2];
+    if (environment) {
+      environment = `https://${environment}-imdb.demos.danwakeem.com/imdb`;
+    }
+    const client = new IMDbClient({
+      environment,
+    });
     const res = await client.imdb.createMovie({
       title: `The Shawshank Redemption ${Date.now()}`,
       rating: 1994,

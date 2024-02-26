@@ -3,6 +3,8 @@ service: imdb-api
 params:
   default: 
     tableName: imdb-${sls:stage}
+    domainName: ${sls:stage}-imdb.demos.danwakeem.com
+  dev:
     domainName: imdb.demos.danwakeem.com
 
 provider:

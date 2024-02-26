@@ -1,0 +1,96 @@
+name: PR Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  variables:
+    runs-on: ubuntu-latest
+    name: Set test environment variables
+    outputs:
+      sls_stage: ${{ steps.set-stage.outputs.sls_stage }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set stage variable
+        id: set-stage
+        run: |
+          echo "sls_stage=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+
+  test:
+    name: Test PR Environment
+    runs-on: ubuntu-latest
+    needs: variables
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+          registry-url: "https://npm.pkg.github.com"
+          cache-dependency-path: |
+            ./yarn.lock
+      - uses: actions/cache@v3
+        with:
+          path: |
+            '**/node_modules'
+            '../../node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Fern Generate
+        run: yarn fern generate
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::002516103466:role/GithubDeploy
+          aws-region: us-east-1
+
+      - name: Deploy PR Environment - ${{ needs.variables.outputs.sls_stage }}
+        run: yarn deploy --stage ${{ needs.variables.outputs.sls_stage }}
+
+      - name: Test PR Environment
+        run: |
+          cd examples
+          yarn install
+          yarn test:js ${{ needs.variables.outputs.sls_stage }}
+          yarn test:ts ${{ needs.variables.outputs.sls_stage }}
+
+  cleanup:
+    needs: [ variables, test ]
+    if: always()
+    name: Cleanup test environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+          registry-url: "https://npm.pkg.github.com"
+          cache-dependency-path: |
+            ./yarn.lock
+      - uses: actions/cache@v3
+        with:
+          path: |
+            '**/node_modules'
+            '../../node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::002516103466:role/GithubDeploy
+          aws-region: us-east-1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Remove PR Environment
+        run: yarn sls remove --stage ${{ needs.variables.outputs.sls_stage }}
