@@ -57,8 +57,6 @@ jobs:
 
       - name: Test PR Environment
         run: |
-          cd examples
-          yarn install
           yarn test:js ${{ needs.variables.outputs.sls_stage }}
           yarn test:ts ${{ needs.variables.outputs.sls_stage }}
 
