@@ -1,6 +1,6 @@
 service:
   auth: false
-  base-path: /movies
+  base-path: /v2/movies
   endpoints:
     createMovie:
       docs: Add a movie to the database

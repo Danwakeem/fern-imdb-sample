@@ -9,12 +9,12 @@ const { IMDbClient } = require('./sdk/node');
   const client = new IMDbClient({
     environment,
   });
-  const res = await client.imdb.createMovie({
+  const res = await client.imdb.v1.movies.createMovie({
     title: `The Shawshank Redemption ${Date.now()}`,
     rating: 1994,
   });
   console.log(res);
 
-  const fetchedMovie = await client.imdb.getMovie(res.id);
+  const fetchedMovie = await client.imdb.v1.movies.getMovie(res.id);
   console.log(fetchedMovie);
 })();

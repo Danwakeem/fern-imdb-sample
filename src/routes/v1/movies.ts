@@ -5,21 +5,22 @@ import {
   GetCommand,
   PutCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { ImdbService } from "../generated/api/resources/imdb/service/ImdbService";
-import { MovieDoesNotExistError } from "../generated/api";
-import { IGetCommandOutput } from "../types/ddb";
-import { Movie } from "../generated/serialization";
+import { MovieDoesNotExistError } from "../../generated/api/resources/imdb/resources/v1";
+import { IGetCommandOutput } from "../../types/ddb";
+import { MoviesService } from '../../generated/api/resources/imdb/resources/v1/resources/movies/service/MoviesService';
+import { Movie } from '../../generated/api/resources/imdb/resources/v1/resources/movies/types';
 
 const TableName = process.env.TABLE_NAME;
 const client = new DynamoDBClient();
 const ddb = DynamoDBDocumentClient.from(client);
 
-export const imdb = new ImdbService({
+
+export const movies = new MoviesService({
   getMovie: async ({ params: { id } }, res) => {
     const { Item } = (await ddb.send(new GetCommand({
       TableName,
       Key: { id },
-    }))) as IGetCommandOutput<Movie.Raw>;
+    }))) as IGetCommandOutput<Movie>;
 
     if (!Item) {
       throw new MovieDoesNotExistError('This movie does not exist');
